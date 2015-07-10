@@ -24,7 +24,7 @@
         <h2>Courses</h2>
 
         <asp:GridView ID="grdCourses" runat="server" CssClass="table table-striped table-hover" AutoGenerateColumns="false" 
-            OnRowDeleting="grdCourses_RowDeleting" DataKeyName="CourseID">
+            OnRowDeleting="grdCourses_RowDeleting" DataKeyNames="CourseID">
             <Columns>
                 <asp:BoundField DataField="Title" HeaderText="Course" />
                 <asp:BoundField DataField="Credits" HeaderText="Credits" />
