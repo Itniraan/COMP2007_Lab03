@@ -18,7 +18,8 @@
 
     <asp:GridView ID="grdCourses" runat="server" CssClass="table table-striped table-hover" AutoGenerateColumns="false" 
         OnRowDeleting="grdCourses_RowDeleting" AllowPaging="true" PageSize="3" 
-        OnPageIndexChanging="grdCourses_PageIndexChanging" AllowSorting="true" OnSorting="grdCourses_Sorting" OnRowDataBound="grdCourses_RowDataBound">
+        OnPageIndexChanging="grdCourses_PageIndexChanging" AllowSorting="true" OnSorting="grdCourses_Sorting" 
+        OnRowDataBound="grdCourses_RowDataBound" DataKeyNames="CourseID">
         <Columns>
             <asp:BoundField DataField="CourseID" HeaderText="Course ID" SortExpression="CourseID" />
             <asp:BoundField DataField="Title" HeaderText="Title" SortExpression="Title" />

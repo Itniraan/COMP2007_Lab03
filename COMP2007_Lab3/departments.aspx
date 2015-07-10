@@ -15,7 +15,7 @@
     </div>
     <asp:GridView ID="grdDepartments" runat="server" CssClass="table table-striped table-hover" AutoGenerateColumns="false" 
         OnRowDeleting="grdDepartments_RowDeleting" AllowPaging="true" PageSize="3" OnPageIndexChanging="grdDepartments_PageIndexChanging" 
-        AllowSorting="true" OnSorting="grdDepartments_Sorting" OnRowDataBound="grdDepartments_RowDataBound">
+        AllowSorting="true" OnSorting="grdDepartments_Sorting" OnRowDataBound="grdDepartments_RowDataBound" DataKeyNames="DepartmentID">
         <Columns>
             <asp:BoundField DataField="DepartmentID" HeaderText="Department ID" SortExpression="DepartmentID" />
             <asp:BoundField DataField="Name" HeaderText="Name" SortExpression="Name" />
