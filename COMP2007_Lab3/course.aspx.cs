@@ -15,10 +15,11 @@ namespace COMP2007_Lab3
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // If save wasn't clicked AND we have a DepartmentID in the URL
+            // If save wasn't clicked AND we have a CourseID in the URL
             if ((!IsPostBack))
             {
                 using (comp2007Entities db = new comp2007Entities()) {
+                    // Add available departments to a dropdown list
                     foreach (Department d in db.Departments)
                     {
                         ddlDepartment.Items.Add(new ListItem(d.Name, d.DepartmentID.ToString()));
@@ -30,6 +31,7 @@ namespace COMP2007_Lab3
                     GetCourse();
                     using (comp2007Entities db = new comp2007Entities())
                     {
+                        // Add available students to a drop down list
                         foreach (Student s in db.Students)
                         {
                             ddlAddStudent.Items.Add(new ListItem(s.LastName + ", " + s.FirstMidName, s.StudentID.ToString()));
@@ -40,7 +42,7 @@ namespace COMP2007_Lab3
         }
         protected void GetCourse()
         {
-            // Populate form with existing department record
+            // Populate form with existing Course record
             Int32 CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
 
             using (comp2007Entities db = new comp2007Entities())
@@ -60,7 +62,7 @@ namespace COMP2007_Lab3
                     ddlDepartment.SelectedValue = selectedItem.DepartmentID.ToString();
                 }
 
-                //enrollments - this code goes in the same method that populates the student form but below the existing code that's already in GetStudent()               
+                //enrollments - This will show who is enrolled in the course         
                 var objE = (from en in db.Enrollments
                             join st in db.Students on en.StudentID equals st.StudentID
                             where en.CourseID == CourseID
@@ -79,7 +81,7 @@ namespace COMP2007_Lab3
             // Use EF to connect to SQL Server
             using (comp2007Entities db = new comp2007Entities())
             {
-                // Use the Department Model to save the new record
+                // Use the Course Model to save the new record
                 Course c = new Course();
                 Int32 CourseID = 0;
                 Int32 DepartmentID = Convert.ToInt32(ddlDepartment.SelectedValue);
@@ -90,7 +92,7 @@ namespace COMP2007_Lab3
                     // Get the ID from the URL
                     CourseID = Convert.ToInt32(Request.QueryString["CourseID"]);
 
-                    // Get the current student from the Enity Framework
+                    // Get the current Course from the Enity Framework
                     c = (from objS in db.Courses
                          where objS.CourseID == CourseID
                          select objS).FirstOrDefault();
@@ -100,20 +102,21 @@ namespace COMP2007_Lab3
                 c.Credits = Convert.ToInt32(txtCredits.Text);
                 c.DepartmentID = DepartmentID;
 
-                // Call add only if we have no department ID
+                // Call add only if we have no Course ID
                 if (CourseID == 0)
                 {
                     db.Courses.Add(c);
                 }
                 db.SaveChanges();
 
-                // Redirect to the updated departments page
+                // Redirect to the updated courses page
                 Response.Redirect("courses.aspx");
             }
         }
 
         protected void grdStudents_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            // Get the student's enrollment ID
             Int32 EnrollmentID = Convert.ToInt32(grdStudents.DataKeys[e.RowIndex].Values["EnrollmentID"]);
 
             using (comp2007Entities db = new comp2007Entities())
@@ -140,6 +143,7 @@ namespace COMP2007_Lab3
 
             using (comp2007Entities db = new comp2007Entities())
             {
+                // Loop through the enrollment table, and check to see if the student is already signed up for this course
                 foreach (Enrollment enroll in db.Enrollments)
                 {
                     if (enroll.StudentID == StudentID && enroll.CourseID == CourseID)
@@ -147,6 +151,7 @@ namespace COMP2007_Lab3
                         alreadyExists = true;
                     }
                 }
+                // If the enrollment doesn't exist, add the student to the course.
                 if (!alreadyExists)
                 {
                     en.StudentID = StudentID;

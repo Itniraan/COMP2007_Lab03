@@ -38,13 +38,12 @@ namespace COMP2007_Lab3
                     txtName.Text = d.Name;
                     txtBudget.Text = Convert.ToString(d.Budget);
                 }
-
-                //enrollments - this code goes in the same method that populates the student form but below the existing code that's already in GetStudent()               
-                var objE = (from en in db.Enrollments
-                            join c in db.Courses on en.CourseID equals c.CourseID
+             
+                // Populate Courses that belong to this department in table below form
+                var objE = (from c in db.Courses
                             join dept in db.Departments on c.DepartmentID equals dept.DepartmentID
-                            where c.DepartmentID == DepartmentID
-                            select new { en.EnrollmentID, c.CourseID, c.Title, c.Credits });
+                            where dept.DepartmentID == DepartmentID
+                            select new { c.CourseID, c.Title, c.Credits });
 
                 pnlCourses.Visible = true;
 
@@ -96,21 +95,23 @@ namespace COMP2007_Lab3
 
             using (comp2007Entities db = new comp2007Entities())
             {
-                Enrollment objE = (from en in db.Enrollments
-                                   where en.CourseID == CourseID
-                                   select en).FirstOrDefault();
+                // Check for any enrollments in the course to be deleted, and remove them. Otherwise, it'll
+                // throw a foreign key exception
+                foreach (Enrollment en in db.Enrollments)
+                {
+                    if (en.CourseID == CourseID)
+                    {
+                        db.Enrollments.Remove(en);
+                    }
+                }
 
-                //Delete
-                db.Enrollments.Remove(objE);
+                // Find the selected course
+                Course c = (from objS in db.Courses
+                            where objS.CourseID == CourseID
+                            select objS).FirstOrDefault(); // Using First would get an error if no data comes back, FirstOrDefault won't throw an error
 
-
-                //Course objC = (from c in db.Courses
-                //                   where c.CourseID == CourseID
-                //                   select c).FirstOrDefault();
-
-                //Delete
-                //db.Courses.Remove(objC);
-
+                // Do the delete
+                db.Courses.Remove(c);
                 db.SaveChanges();
 
                 //Refresh the data on the page

@@ -11,7 +11,7 @@
         <asp:DropDownList ID="ddlPageSize" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
             <asp:ListItem Value="3" Text="3" />
             <asp:ListItem Value="5" Text="5" />
-            <asp:ListItem Value="1000000" Text="All" />
+            <asp:ListItem Value="10" Text="10" />
         </asp:DropDownList>
     </div>
 

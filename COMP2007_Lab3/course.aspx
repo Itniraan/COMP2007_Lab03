@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/site.Master" AutoEventWireup="true" CodeBehind="course.aspx.cs" Inherits="COMP2007_Lab3.course" %>
+﻿<%@ Page Title="Contoso University | Add/Edit Course" Language="C#" MasterPageFile="~/site.Master" AutoEventWireup="true" CodeBehind="course.aspx.cs" Inherits="COMP2007_Lab3.course" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -8,11 +8,12 @@
     <fieldset>
         <label for="txtTitle" class="col-sm-2">Title: </label>
         <asp:TextBox ID="txtTitle" runat="server" required="true" MaxLength="50" />
-        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="RequiredFieldValidator" ControlToValidate="txtTitle" CssClass="label label-danger" Display="Dynamic"></asp:RequiredFieldValidator>
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Course Title is required." ControlToValidate="txtTitle" CssClass="label label-danger" Display="Dynamic"></asp:RequiredFieldValidator>
     </fieldset>
     <fieldset>
         <label for="txtCredits" class="col-sm-2">Credits: </label>
         <asp:TextBox ID="txtCredits" runat="server" required="true" MaxLength="50" Type="Number" />
+        <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Course Credits is required." ControlToValidate="txtCredits" CssClass="label label-danger" Display="Dynamic"></asp:RequiredFieldValidator>
         <asp:RangeValidator ID="RangeValidatorBudget" runat="server" ErrorMessage="Credits must be between 0 and 6" ControlToValidate="txtCredits" MinimumValue="0" MaximumValue="6" CssClass="label label-danger" Display="Dynamic" Type="Integer"></asp:RangeValidator>
     </fieldset>
     <fieldset>

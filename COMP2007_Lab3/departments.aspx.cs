@@ -54,6 +54,23 @@ namespace COMP2007_Lab3
             // Use Enity Framework to remove the selected student from the DB
             using (comp2007Entities db = new comp2007Entities())
             {
+                // Need to clear out any courses inside of Department, and need to clear out any enrollments inside of each course. Otherwise, 
+                // i'll get a foreign key restraint error.
+                foreach (Course c in db.Courses)
+                {
+                    if (c.DepartmentID == DepartmentID)
+                    {
+                        foreach (Enrollment en in db.Enrollments)
+                        {
+                            if (en.CourseID == c.CourseID)
+                            {
+                                db.Enrollments.Remove(en);
+                            }
+                        }
+                        db.Courses.Remove(c);
+                    }
+                }
+
                 Department d = (from objS in db.Departments
                                 where objS.DepartmentID == DepartmentID
                                 select objS).FirstOrDefault(); // Using First would get an error if no data comes back, FirstOrDefault won't throw an error

@@ -22,7 +22,7 @@ namespace COMP2007_Lab3
             {
                 Session["SortColumn"] = "CourseID";
                 Session["SortDirection"] = "ASC";
-                // If loading the page for the first time, populate the department grid
+                // If loading the page for the first time, populate the course grid
                 GetCourses();
             }
         }
@@ -32,7 +32,7 @@ namespace COMP2007_Lab3
             using (comp2007Entities db = new comp2007Entities())
             {
                 String sortString = Session["SortColumn"].ToString() + " " + Session["SortDirection"].ToString();
-                // Query the Departments table, using the Enity Framework
+                // Query the Courses table, using the Enity Framework
                 var Courses = from c in db.Courses
                               select new { c.CourseID, c.Title, c.Credits, c.Department.Name };
 
@@ -47,12 +47,21 @@ namespace COMP2007_Lab3
             // Store which row was clicked
             Int32 selectedRow = e.RowIndex;
 
-            // Get the selected DepartmentID using the grid's Data Key collection
+            // Get the selected CourseID using the grid's Data Key collection
             Int32 CourseID = Convert.ToInt32(grdCourses.DataKeys[selectedRow].Values["CourseID"]);
 
             // Use Enity Framework to remove the selected student from the DB
             using (comp2007Entities db = new comp2007Entities())
             {
+                // Check for enrollments in the course, and remove them. Otherwise, it'll throw a foreign key exception
+                foreach (Enrollment en in db.Enrollments)
+                {
+                    if (en.CourseID == CourseID)
+                    {
+                        db.Enrollments.Remove(en);
+                    }
+                }
+
                 Course c = (from objS in db.Courses
                                 where objS.CourseID == CourseID
                                 select objS).FirstOrDefault(); // Using First would get an error if no data comes back, FirstOrDefault won't throw an error

@@ -105,7 +105,6 @@
     <Content Include="courses.aspx" />
     <Content Include="default.aspx" />
     <Content Include="departments.aspx" />
-    <Content Include="editStudent.aspx" />
     <Content Include="Global.asax" />
     <Content Include="student.aspx" />
     <Content Include="students.aspx" />
@@ -146,13 +145,6 @@
     </Compile>
     <Compile Include="departments.aspx.designer.cs">
       <DependentUpon>departments.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="editStudent.aspx.cs">
-      <DependentUpon>editStudent.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="editStudent.aspx.designer.cs">
-      <DependentUpon>editStudent.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
